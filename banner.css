@@ -1,0 +1,30 @@
+#app {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+/* 所有layer都开启了绝对定位，且完全覆盖了父元素#app */
+#app .layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app .layer img {
+  user-select: none;
+  /* 开启这个样式非常重要，目的是让鼠标事件穿透到父元素，也就是#app */
+  pointer-events: none;
+}
+
+#app .layer img, .layer video {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
