@@ -9,7 +9,8 @@
   ```pug
   header#page-header(class=`${headerClassName + isFixedClass}` style=bg_img)
     include ./nav.pug
-    div#app //这行是新加的代码
+  +  if is_home()
+  +  	div#app 
   ```
 
   这行代码的作用就是在`header#page-header`添加一个`id=app`的div，这个容器后续盛放我们的banner
