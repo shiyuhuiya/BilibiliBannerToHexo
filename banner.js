@@ -77,8 +77,15 @@ const header = document.getElementById("page-header");
 
   // 计算线性插值
   lerp = (start, end, amt) => (1 - amt) * start + amt * end;
+
+  function mouseMove(e) {
+    moveX = e.pageX - initX;
+    requestAnimationFrame(() => {
+      animate(moveX);
+    })
+  }
   // 动画执行
-  function animate() {
+  function animate(moveX) {
     //如果不存在layers，直接返回
     if (layers.length <= 0) return;
     //每次鼠标在banner上移动，遍历所有layer,对每个layer中的子元素都应用变换
@@ -104,25 +111,14 @@ const header = document.getElementById("page-header");
       layers[i].firstChild.style.transform = `translate(${translateX}px,${translateY}px) rotate(${rotate}deg) scale(${scale})`
     }
   }
-
-  let enter = false // 鼠标是否已经进入
-  function mouseMove(e) {
-    if (!enter) {
-      initX = e.pageX;
-      enter = true;
-    }
-    // 直接调用 requestAnimationFrame，无需节流
-    requestAnimationFrame(() => {
-      moveX = e.pageX - initX;
-      animate();
-    });
-  }
+  header.addEventListener('mouseenter',(e)=>{
+    initX = e.pageX;
+  })
   header.addEventListener("mousemove", mouseMove);
 
   // 鼠标已经离开了视窗，执行回正动画
   function leave() {
     //修改一些标记量
-    enter = false
     layers.forEach((layer, i) => {
       const child = layer.firstChild
       const layerChildConfig = curBannerData[i];
@@ -136,7 +132,7 @@ const header = document.getElementById("page-header");
         // 根据item中的信息设置img或者video的宽高
         child.style.width = `${layerChildConfig.width * compensate}px`;
         child.style.height = `${layerChildConfig.height * compensate}px`;
-        // 应用补偿值到变换矩阵的第4、5项（translateX/Y，偏移值）
+        // 应用补偿值到（translateX/Y，偏移值）
         let translateX = layerChildConfig.transform.translateX * compensate
         let translateY = layerChildConfig.transform.translateY * compensate
         let rotate = layerChildConfig.transform.rotate

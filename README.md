@@ -63,9 +63,11 @@
 
     同时删除了不必要的深拷贝代码，让代码内存占用更小。
 
-    使用requestAnimationFrame包裹leave之后触发的回正动画，确保回正动画能触发。
+    使用`requestAnimationFrame`包裹leave之后触发的回正动画，确保回正动画能触发。
   
-    移除isBacking，结局banner卡死的问题
+    移除isBacking，解决banner卡死的问题
+  
+    重新添加了mouseenter事件的监听
   
   * 新增`fix.js`文件，用来修改先前爬取的banner中的`data.json`文件，修改了transform属性：
   
