@@ -1,34 +1,41 @@
-#app {
-  position: absolute;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+@media screen and (min-width:800px){
+  #app {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  /* 所有layer都开启了绝对定位，且完全覆盖了父元素#app */
+  #app .layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #app .layer img {
+    user-select: none;
+    /* 不响应鼠标事件，让鼠标事件穿透到父元素， */
+    pointer-events: none;
+  }
+  
+  #app .layer img, .layer video {
+    /* 告诉浏览器这些元素可能会有变换（transform）相关的改变，
+       例如旋转、缩放、平移等操作。这样，浏览器可以提前准备，
+       比如将该元素提升到一个新的合成层，从而可能提高动画的流畅度。 
+    */
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
 }
-/* 所有layer都开启了绝对定位，且完全覆盖了父元素#app */
-#app .layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#app .layer img {
-  user-select: none;
-  /* 开启这个样式非常重要，目的是让鼠标事件穿透到父元素，也就是#app */
-  pointer-events: none;
-}
-
-#app .layer img, .layer video {
-  /* 告诉浏览器这些元素可能会有变换（transform）相关的改变，
-     例如旋转、缩放、平移等操作。这样，浏览器可以提前准备，
-     比如将该元素提升到一个新的合成层，从而可能提高动画的流畅度。 
-  */
-  will-change: transform;
-  transform-style: preserve-3d;
+@media screen and (max-width:800px){
+  #app {
+   display: none;
+  }
 }
