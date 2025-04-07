@@ -4,7 +4,7 @@
 
 * 将解压后得到的文件夹：`BilibiliBannerToHexo-master`，剪切到自己博客项目根目录下的source目录中
 
-* 打开`blog\themes\butterfly\layout\includes\header\index.pug`文件，添加如下代码，我这里使用的是butterfly主题，其他主题可能添加结构的方法有所不同。
+* 打开`blog\themes\butterfly\layout\includes\header\index.pug`文件，添加如下代码，我这里使用的是butterfly主题，其他主题添加结构的方法可能有所不同。
 
   ```pug
   header#page-header(class=`${headerClassName + isFixedClass}` style=bg_img)
@@ -52,6 +52,42 @@
   ```
 
   就开始爬取B站banner了。
+
+## 更新记录
+
+* 2025/4/7：
+
+  * 修改`banner.js`文件：删除原作者使用`矩阵`来做样式变换的做法，使用原生css动画中的`translate，rotate，scale`，让代码更容易理解；同时删除了不必要的深拷贝代码，让代码内存占用更小。
+
+  * 新增`fix.js`文件，用来修改先前爬取的banner中的`data.json`文件，修改了transform属性：
+
+    原先的值：
+
+    ```json
+    "transform": [
+        1,
+        0,
+        0,
+        1,
+        600,
+        35
+    ]
+    ```
+
+    现在的值：
+
+    ```json
+    "transform": {
+       "translateX": 600,
+       "translateY": 35,
+       "rotate": 0,
+       "scale": 1
+    },
+    ```
+
+  * 修改`grap.js`文件，捕获了更多样式：`旋转的速度r，缩放的速度f`，同时也修改了输出的`data.json`文件的格式，让代码效果更接近B站原生Banner。
+
+    
 
 ## 主要参考文章和资料
 

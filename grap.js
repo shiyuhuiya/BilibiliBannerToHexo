@@ -13,10 +13,17 @@ function countDirectories(dirPath) {
   });
   return folderCount;
 }
+//自定义睡眠函数，立即返回一个promise对象，立即开启一个定时器，在指定的时间后修改promise对象的状态
+function sleep(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
+  });
+}
+let cnts = countDirectories(path.resolve(__dirname, './images'))
 
-let cnts = countDirectories(path.resolve(__dirname,'./images'))
-
-const folderPath = path.resolve(__dirname,"./images/" + (cnts+1));
+const folderPath = path.resolve(__dirname, "./images/" + (cnts + 1));
 //创建目录
 fs.mkdirSync(folderPath, { recursive: true });
 
@@ -50,34 +57,41 @@ const data = [];
     // 使用page.$$()获取所有 ".layer" 元素（图层元素）
     // 类似document.querySelectorAll的效果, layerElements是一个伪数组
     let layerElements = await page.$$(".animated-banner .layer");
-    // 获取并下载保存数据
-    // 遍历图层提取transform样式数据（包含translate坐标解析）
+    // 遍历图层提取样式数据
     for (let i = 0; i < layerElements.length; i++) {
       // 分析page.evaluate(el=>{},element):
-      // Puppeteer会将element转换为浏览器环境中的 DOM 元素句柄（ElementHandle），映射到回调函数的参数 el上
-      // 传入的回调函数的返回值，最终会赋值给layerFirstChild
+      // Puppeteer会将element转换为浏览器环境中的 DOM 元素句柄（ElementHandle）
+      // 映射到回调函数的参数 el上
       const layerFirstChild = await page.evaluate(async (el) => {
-        // 使用正则匹配transform属性中的translate值，精准捕获X/Y轴位移像素值。
-        const pattern = /translate\(([-.\d]+px), ([-.\d]+px)\)/;
+        // 关于下面正则表达式如果不理解，建议去复习js的正则表达式
+        // 匹配初始transform属性中的translate值，精准捕获X/Y轴位移像素值。
+        const pattern = /translate\(([-.\d]+)px, ([-.\d]+)px\)/;
+        // 匹配初始transform属性中的rotate值
+        const pattern2 = /rotate\(([-.\d]+)deg\)/
+        // 匹配初始transform属性中的scale值
+        const pattern3 = /scale\(([.\d]+)\)/
+        // 记录初始偏移值，缩放值，旋转角度
+        const init = {}
         // el.firstElementChild就是每个layer中的img或者video元素
-        // 解构获取这个元素的各个属性值
         const { width, height, src, style, tagName } = el.firstElementChild;
         // 调用字符串的match方法，传入一个正则表达式
-        // 例如 translate(100px, 50px)会提取["100px", "50px"]。
-        const matches = style.transform.match(pattern);
-        // 将匹配结果转换为二维变换矩阵
-        // match()方法返回的数组matches结构为：["translate(100px,50px)","100px","50px"]
-        // 第0项：完整匹配结果，第1项：第一个捕获组（X轴值），第2项：第二个捕获组（Y轴值）
-        // map(x => +x.replace('px', '')做的事情就是将字符串转换成数字
-        const transform = [1, 0, 0, 1, ...matches.slice(1).map(x => +x.replace('px', ''))]
-        return { tagName: tagName.toLowerCase(), opacity: [style.opacity, style.opacity], transform, width, height, src, a: 0.01 };
+        const matches = style.transform.match(pattern);//匹配translate的结果
+        init.translateX = +matches.slice(1)[0]
+        init.translateY = +matches.slice(1)[1]
+        const matches2 = style.transform.match(pattern2)//匹配rotate的结果
+        const deg = +matches2[1]
+        init.rotate = deg
+        const matches3 = style.transform.match(pattern3)//匹配scale的结果
+        const scale = +matches3[1]
+        init.scale = scale
+        // 传入的回调函数的返回值，最终会赋值给layerFirstChild
+        return { tagName: tagName.toLowerCase(), opacity: [style.opacity], transform: init, width, height, src };
       }, layerElements[i]);
-      // data.push(layerFirstChild);
-      await download(layerFirstChild) // 下载并保存数据（下载的就是回调函数return的对象）
+      // 下载并保存数据
+      await download(layerFirstChild) 
     }
 
     // 完成后模拟偏移banner
-
     // 选择器获取"横幅容器元素"
     let element = await page.$('.animated-banner')
     // boundingBox()获取其视口坐标
@@ -89,23 +103,35 @@ const data = [];
     await sleep(1200);
 
     // 动画结束后DOM可能更新，需重新获取.layer元素句柄，避免引用失效
-    // 偏移后计算每个图层的相对位置，并得出加速度
     layerElements = await page.$$(".animated-banner .layer"); // 重新获取
     for (let i = 0; i < layerElements.length; i++) {
       const arr = await page.evaluate(async (el) => {
-        //定义正则表达式
-        const pattern = /translate\(([-.\d]+px), ([-.\d]+px)\)/;
+        // 匹配偏移后transform属性中的translate值，精准捕获X/Y轴位移像素值。
+        const pattern = /translate\(([-.\d]+)px, ([-.\d]+)px\)/;
+        // 匹配偏移后transform属性中的rotate值
+        const pattern2 = /rotate\(([-.\d]+)deg\)/
+        // 匹配偏移后transform属性中的scale值
+        const pattern3 = /scale\(([.\d]+)\)/
         //解构出style
         const { style } = el.firstElementChild
-        const matches = style.transform.match(pattern);
-        return matches.slice(1).map(x => +x.replace('px', ''))
+        const matches = style.transform.match(pattern);//匹配banner移动后 translate的值
+        const matches2 = style.transform.match(pattern2)//匹配banner移动后rotate的值
+        const deg = + matches2[1]
+        const matches3 = style.transform.match(pattern3)//匹配banner移动后scale的值
+        const scale = + matches3[1]
+        return [...matches.slice(1).map(x => +x), deg, scale, style.opacity]
       }, layerElements[i]);
-      // x是当前layer中的第一个元素的x轴偏移量
-      // data[i].transform[4]是当前layer中的第一个元素的x轴初始偏移量
-      // 计算得到x轴上的加速度a
-      data[i].a = (arr[0] - data[i].transform[4]) / 1000
-      // 计算得到y轴上的加速度g
-      data[i].g = (arr[1] - data[i].transform[5]) / 1000
+
+      // 计算得到x轴上的'速度'a，其实就是一个比例关系
+      data[i].a = (arr[0] - data[i].transform.translateX) / 1000
+      // 计算得到y轴上的'速度'g，其实就是一个比例关系
+      data[i].g = (arr[1] - data[i].transform.translateY) / 1000
+      // 计算旋转的'速度'r
+      data[i].r = (arr[2] - data[i].transform.rotate) / 1000
+      // 计算缩放的'速度's
+      data[i].f = (arr[3] - data[i].transform.scale) / 1000
+      // 补充滑动1000px后的透明度
+      data[i].opacity.push(arr[4])
     }
   } catch (error) {
     console.error("Error:", error);
@@ -118,18 +144,23 @@ const data = [];
     const filename = fileArr[fileArr.length - 1]
     // 得到图片的存储路径
     const fileSavePath = `${folderPath}/${filename}`
+
     // 使用fetch下载图片
     const content = await page.evaluate(async (url) => {
       const response = await fetch(url);
       const buffer = await response.arrayBuffer();
       return { buffer: Array.from(new Uint8Array(buffer)) };
     }, item.src);
+    // 得到图片数据
     const fileData = Buffer.from(content.buffer);
-    // 异步写入更安全
+    // 异步写入
     fs.promises.writeFile(fileSavePath, fileData).catch(console.error);
-    // 将每个layer中的第一个元素的信息对象，push到data数组
-    data.push({ ...item, ...{ src: `/bilibiliBanner/images/${cnts+1}/${filename}` } });
+    // 将每个layer中的firstChild的信息对象，push到data数组
+    // 下载好图片后，修改图片src为本地下载路径，而不是网络路径
+    data.push({ ...item, ...{ src: `/bilibiliBanner/images/${cnts + 1}/${filename}` } });
   }
+
+
   // 同时把data数组以json的格式，保存到data.json文件中
   fs.writeFileSync(`${folderPath}/data.json`, JSON.stringify(data, null, 2));
   console.log('正在写入本地文件...');
@@ -137,12 +168,3 @@ const data = [];
   await browser.close();
   console.log('banner 下载完毕');
 })();
-
-//自定义睡眠函数，立即返回一个promise对象，立即开启一个定时器，在指定的时间后修改promise对象的状态
-function sleep(timeout) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, timeout);
-  });
-}

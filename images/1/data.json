@@ -5,14 +5,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      0,
-      0
-    ],
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 2100,
     "height": 197,
     "src": "/bilibiliBanner/images/1/39f5846ccf601e178afe37eef2e9759d38078d56.png@1c.webp",
@@ -24,14 +22,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      78,
-      6
-    ],
+    "transform": {
+      "translateX": 78,
+      "translateY": 6,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 201,
     "height": 107,
     "src": "/bilibiliBanner/images/1/0a3bf7a4c7c3b8b5b63aae6adf57c5fabeeb0cff.png@1c.webp",
@@ -43,14 +39,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      36,
-      42
-    ],
+    "transform": {
+      "translateX": 36,
+      "translateY": 42,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 1800,
     "height": 99,
     "src": "/bilibiliBanner/images/1/6eb5ad9b-0b62-465c-a02e-308a1bbcfe1c",
@@ -62,14 +56,12 @@
       "0.7",
       "0.7"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -15,
-      32.5
-    ],
+    "transform": {
+      "translateX": -15,
+      "translateY": 32.5,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 62,
     "height": 23,
     "src": "/bilibiliBanner/images/1/e737e375a9bf412f802feaec18ee52ad517b4db9.png@1c.webp",
@@ -81,14 +73,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      800,
-      -32
-    ],
+    "transform": {
+      "translateX": 800,
+      "translateY": -32,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 755,
     "height": 159,
     "src": "/bilibiliBanner/images/1/9539f58accbf88eb810a45ff2cbefbf1c29840c3.png@1c.webp",
@@ -100,14 +90,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      850,
-      -10
-    ],
+    "transform": {
+      "translateX": 850,
+      "translateY": -10,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 1141,
     "height": 170,
     "src": "/bilibiliBanner/images/1/b5514fc043485ce31d0c91a398aeb288261256dc.png@1c.webp",
@@ -119,14 +107,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      225,
-      30
-    ],
+    "transform": {
+      "translateX": 225,
+      "translateY": 30,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 125,
     "height": 46,
     "src": "/bilibiliBanner/images/1/9cc0c1c3b87ca0ea32b80c3b08611e794108348b.png@1c.webp",
@@ -138,14 +124,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -560,
-      0
-    ],
+    "transform": {
+      "translateX": -560,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 660,
     "height": 162,
     "src": "/bilibiliBanner/images/1/8512395c322494ef32b0fb40821e8e66fb291b53.png@1c.webp",
@@ -157,14 +141,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -660,
-      24
-    ],
+    "transform": {
+      "translateX": -660,
+      "translateY": 24,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 149,
     "height": 55,
     "src": "/bilibiliBanner/images/1/e737e375a9bf412f802feaec18ee52ad517b4db9.png@1c.webp",
@@ -176,14 +158,12 @@
       "0.6",
       "0.6"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      0,
-      0
-    ],
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 1255,
     "height": 133,
     "src": "/bilibiliBanner/images/1/e8dbe8c5-c98b-4e36-9fcc-d6bf2c1daf0c",
@@ -195,14 +175,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      0,
-      0
-    ],
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 1465,
     "height": 156,
     "src": "/bilibiliBanner/images/1/6e9dd4d7f26b117773661aeed3a357641d519f2a.png@1c.webp",
@@ -215,14 +193,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -110,
-      27.5
-    ],
+    "transform": {
+      "translateX": -110,
+      "translateY": 27.5,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 226,
     "height": 87,
     "src": "/bilibiliBanner/images/1/f48b2d7535cae1ed97c7bb3c69d29e574cbe30c6.png@1c.webp",
@@ -234,14 +210,12 @@
       "0",
       "0"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      350,
-      35
-    ],
+    "transform": {
+      "translateX": 350,
+      "translateY": 35,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 193,
     "height": 103,
     "src": "/bilibiliBanner/images/1/4d9b71139bc84c4ddd1b37a906115c4b0c54af87.png@1c.webp",
@@ -253,14 +227,12 @@
       "0",
       "0"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -420,
-      0
-    ],
+    "transform": {
+      "translateX": -420,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 436,
     "height": 169,
     "src": "/bilibiliBanner/images/1/cd873292b7b3ae5603b546e1ecdf05fecaa955f3.png@1c.webp",
@@ -272,14 +244,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -385,
-      22
-    ],
+    "transform": {
+      "translateX": -385,
+      "translateY": 22,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 326,
     "height": 109,
     "src": "/bilibiliBanner/images/1/f3a02af183b808d236d0cc7997cbeb8958ef9bb0.png@1c.webp",
@@ -291,14 +261,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      800,
-      0
-    ],
+    "transform": {
+      "translateX": 800,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 582,
     "height": 225,
     "src": "/bilibiliBanner/images/1/cd873292b7b3ae5603b546e1ecdf05fecaa955f3.png@1c.webp",
@@ -310,14 +278,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      -140,
-      0
-    ],
+    "transform": {
+      "translateX": -140,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 446,
     "height": 141,
     "src": "/bilibiliBanner/images/1/3483ce9cad9fc3dd80f34cb164bcd5eeb1606332.png@1c.webp",
@@ -329,14 +295,12 @@
       "1",
       "1"
     ],
-    "transform": [
-      1,
-      0,
-      0,
-      1,
-      560,
-      0
-    ],
+    "transform": {
+      "translateX": 560,
+      "translateY": 0,
+      "rotate": 0,
+      "scale": 1
+    },
     "width": 446,
     "height": 141,
     "src": "/bilibiliBanner/images/1/988a546df1cdf5eeefa0a5c319bc6b4bfca7d42d.png@1c.webp",

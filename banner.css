@@ -25,6 +25,10 @@
 }
 
 #app .layer img, .layer video {
+  /* 告诉浏览器这些元素可能会有变换（transform）相关的改变，
+     例如旋转、缩放、平移等操作。这样，浏览器可以提前准备，
+     比如将该元素提升到一个新的合成层，从而可能提高动画的流畅度。 
+  */
   will-change: transform;
   transform-style: preserve-3d;
 }
