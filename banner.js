@@ -105,62 +105,45 @@ const header = document.getElementById("page-header");
     }
   }
 
-  let isAnimating = false;
   let enter = false // 鼠标是否已经进入
-
   function mouseMove(e) {
-    // 如果还处于回正动画，直接返回
-    // console.log(isBacking)
-    if (isBacking) return
-    // 如果上一次requestAnimationFrame的回调未触发，则直接返回
-    // 这样无论鼠标移动的多快，样式的修改频率也不会高于屏幕刷新率
-    if (isAnimating) return;
-    //如果是初次滑动，则记录初始坐标
     if (!enter) {
       initX = e.pageX;
-      enter = true
+      enter = true;
     }
-    isAnimating = true;
+    // 直接调用 requestAnimationFrame，无需节流
     requestAnimationFrame(() => {
-      //计算x轴方向偏移值
       moveX = e.pageX - initX;
-      //重绘每个layer中的子元素
       animate();
-      isAnimating = false;
     });
   }
   header.addEventListener("mousemove", mouseMove);
 
   // 鼠标已经离开了视窗，执行回正动画
-  let isBacking = false
   function leave() {
     //修改一些标记量
     enter = false
-    isBacking = true
     layers.forEach((layer, i) => {
       const child = layer.firstChild
       const layerChildConfig = curBannerData[i];
-      //回正的时候给每个layer都添加过渡
-      child.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-      //每个layer的回正结束后，都取消自己的过渡
       child.addEventListener('transitionend', () => {
-        child.style.transition = '';
-        if (isBacking) {
-          isBacking = false
-        }
+          child.style.transition = '';
       }, { once: true });
-      
-      // 应用补偿值到元素的宽高
-      // 根据item中的信息设置img或者video的宽高
-      child.style.width = `${layerChildConfig.width * compensate}px`;
-      child.style.height = `${layerChildConfig.height * compensate}px`;
-      // 应用补偿值到变换矩阵的第4、5项（translateX/Y，偏移值）
-      let translateX = layerChildConfig.transform.translateX * compensate
-      let translateY = layerChildConfig.transform.translateY * compensate
-      let rotate = layerChildConfig.transform.rotate
-      let scale = layerChildConfig.transform.scale
-      // 添加偏移
-      child.style.transform = `translate(${translateX}px,${translateY}px) rotate(${rotate}deg) scale(${scale})`
+      requestAnimationFrame(() => {
+        //回正的时候给每个layer都添加过渡
+        child.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        // 应用补偿值到元素的宽高
+        // 根据item中的信息设置img或者video的宽高
+        child.style.width = `${layerChildConfig.width * compensate}px`;
+        child.style.height = `${layerChildConfig.height * compensate}px`;
+        // 应用补偿值到变换矩阵的第4、5项（translateX/Y，偏移值）
+        let translateX = layerChildConfig.transform.translateX * compensate
+        let translateY = layerChildConfig.transform.translateY * compensate
+        let rotate = layerChildConfig.transform.rotate
+        let scale = layerChildConfig.transform.scale
+        // 添加偏移
+        child.style.transform = `translate(${translateX}px,${translateY}px) rotate(${rotate}deg) scale(${scale})`
+      })
     })
   }
   header.addEventListener("mouseleave", leave);

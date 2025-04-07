@@ -57,12 +57,20 @@
 
 * 2025/4/7：
 
-  * 修改`banner.js`文件：删除原作者使用`矩阵`来做样式变换的做法，使用原生css动画中的`translate，rotate，scale`，让代码更容易理解；同时删除了不必要的深拷贝代码，让代码内存占用更小。
+  * 修改`banner.js`文件：
 
+    删除原作者使用`矩阵`来做样式变换的做法，使用原生css动画中的`translate，rotate，scale`，让代码更容易理解；
+
+    同时删除了不必要的深拷贝代码，让代码内存占用更小。
+
+    使用requestAnimationFrame包裹leave之后触发的回正动画，确保回正动画能触发。
+  
+    移除isBacking，结局banner卡死的问题
+  
   * 新增`fix.js`文件，用来修改先前爬取的banner中的`data.json`文件，修改了transform属性：
-
+  
     原先的值：
-
+  
     ```json
     "transform": [
         1,
@@ -73,9 +81,9 @@
         35
     ]
     ```
-
+  
     现在的值：
-
+  
     ```json
     "transform": {
        "translateX": 600,
@@ -84,9 +92,9 @@
        "scale": 1
     },
     ```
-
+  
   * 修改`grap.js`文件，捕获了更多样式：`旋转的速度r，缩放的速度f`，同时也修改了输出的`data.json`文件的格式，让代码效果更接近B站原生Banner。
-
+  
     
 
 ## 主要参考文章和资料
