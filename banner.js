@@ -74,13 +74,21 @@ const header = document.getElementById("page-header");
   let initX = 0;
   //鼠标在banner上，在x轴方向移动的距离
   let moveX = 0;
-
+  header.addEventListener('mouseenter', (e) => {
+    // 计算初始位置
+    initX = e.pageX;
+    // 强制取消过渡
+    layers.forEach(layer => {
+      layer.firstChild.style.transition = ''
+    })
+  })
   // 计算线性插值
   lerp = (start, end, amt) => (1 - amt) * start + amt * end;
 
   function mouseMove(e) {
     moveX = e.pageX - initX;
     requestAnimationFrame(() => {
+      //在浏览器下次重绘前，异步批量执行
       animate(moveX);
     })
   }
@@ -111,9 +119,6 @@ const header = document.getElementById("page-header");
       layers[i].firstChild.style.transform = `translate(${translateX}px,${translateY}px) rotate(${rotate}deg) scale(${scale})`
     }
   }
-  header.addEventListener('mouseenter',(e)=>{
-    initX = e.pageX;
-  })
   header.addEventListener("mousemove", mouseMove);
 
   // 鼠标已经离开了视窗，执行回正动画
@@ -123,7 +128,7 @@ const header = document.getElementById("page-header");
       const child = layer.firstChild
       const layerChildConfig = curBannerData[i];
       child.addEventListener('transitionend', () => {
-          child.style.transition = '';
+        child.style.transition = '';
       }, { once: true });
       requestAnimationFrame(() => {
         //回正的时候给每个layer都添加过渡
