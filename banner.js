@@ -14,6 +14,10 @@ const app = document.getElementById("app");
 const header = document.getElementById("page-header");
 
 (async function () {
+  //如果当前页面中不存在app元素，则直接返回
+  if(app===null){
+    return
+  }
   // 随机取一个banner来展示
   // 10表示当前有10个banner，如果爬取了更多banner，此处应该被修改
   const index = Math.floor(Math.random() * 10 + 1)
@@ -25,7 +29,9 @@ const header = document.getElementById("page-header");
   function init() {
     //根据窗口宽度，计算补偿值compensate，用于动态调整元素尺寸和位置
     compensate = window.innerWidth > 1650 ? window.innerWidth / 1650 : 1;
-    //进行离线操作，防止触发多次回流
+    // 进行离线操作，防止触发多次回流
+    // 当一个 HTML 元素的 display 属性设置为 none 时，该元素会从文档流中完全移除，并且不会在页面上显示。
+    // 尽管如此，你仍然可以通过 JavaScript 或 CSS 对该元素进行操作和修改样式
     app.style.display = "none";
 
     for (let i = 0; i < curBannerData.length; i++) {
@@ -76,7 +82,7 @@ const header = document.getElementById("page-header");
   let moveX = 0;
   header.addEventListener('mouseenter', (e) => {
     // 计算初始位置
-    initX = e.pageX;
+    initX = e.clientX;
     // 强制取消过渡
     layers.forEach(layer => {
       layer.firstChild.style.transition = ''
@@ -86,7 +92,7 @@ const header = document.getElementById("page-header");
   lerp = (start, end, amt) => (1 - amt) * start + amt * end;
 
   function mouseMove(e) {
-    moveX = e.pageX - initX;
+    moveX = e.clientX - initX;
     requestAnimationFrame(() => {
       //在浏览器下次重绘前，异步批量执行
       animate(moveX);
