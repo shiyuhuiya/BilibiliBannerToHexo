@@ -4,8 +4,9 @@ const app = document.getElementById("app");
 //nav元素也是使用了绝对定位的header的子元素，且置顶压住了app
 //后续我们给header加上mousemove和mouseleave的事件监听,为什么？
 //即便我们鼠标是在nav或者app上移动，mousemove事件也会冒泡到父元素header
-//但如果我们只给app添加mousemove，当鼠标移动到nav上，就不会触发mousemove事件
-//为此时 nav 元素挡住了 app 元素，成为实际响应鼠标事件的元素
+//但如果我们只给app添加mousemove，当鼠标移动到nav上，就不会触发app的mousemove事件
+//因为此时 nav 元素挡住了 app 元素，成为实际响应鼠标事件的元素（目标元素）
+//因为nav和app是兄弟关系，所以mouseove事件不会冒泡到app
 //因为我们希望鼠标在nav或者app上移动时，banner都能动，所以我们将mousemove监听添加到父元素上
 //如果我们只给app添加mouseleave监听，当鼠标移动到nav（2个元素是同级关系），
 //就会触发app的mouseleave事件，播放回正动画，这样用户可交互的范围就变小了
@@ -14,7 +15,7 @@ const app = document.getElementById("app");
 const header = document.getElementById("page-header");
 
 (async function () {
-  //如果当前页面中不存在app元素，则直接返回
+  //如果当前页面中不存在app元素（非首页），则直接返回
   if(app===null){
     return
   }
@@ -53,7 +54,7 @@ const header = document.getElementById("page-header");
       child.src = layerChildConfig.src;
 
       // 应用补偿值到元素的宽高
-      // 根据item中的信息设置img或者video的宽高
+      // 根据layerChildConfig中的信息设置img或者video的宽高
       child.style.width = `${layerChildConfig.width * compensate}px`;
       child.style.height = `${layerChildConfig.height * compensate}px`;
       // 应用补偿值到变换矩阵的第4、5项（translateX/Y，偏移值）
@@ -107,13 +108,13 @@ const header = document.getElementById("page-header");
       // 当前layer的子元素对应的配置信息
       const layerChildConfig = curBannerData[i];
       // 下面代码的核心就是利用moveX来计算新的样式并应用
-      // 当前translateX
+      // 当前translateX，在原来的基础上添加增量
       let translateX = layerChildConfig.transform.translateX + moveX * (layerChildConfig.a || 0);
-      // 当前scale
+      // 当前scale，在原来的基础上添加增量
       let scale = layerChildConfig.transform.scale + (layerChildConfig.f || 0) * moveX
-      // 当前translateY
+      // 当前translateY，在原来的基础上添加增量
       let translateY = layerChildConfig.transform.translateY + moveX * (layerChildConfig.g || 0);
-      // 当前rotate
+      // 当前rotate，在原来的基础上添加增量
       let rotate = layerChildConfig.transform.rotate + moveX * (layerChildConfig.r || 0)
       // 透明度变化
       layers[i].firstChild.style.opacity = lerp(
@@ -121,7 +122,7 @@ const header = document.getElementById("page-header");
         layerChildConfig.opacity[1],
         (moveX / window.innerWidth) * 2
       );
-      // 一次性应用所有变化
+      // 一次性应用所有变化，先平移，再旋转，最后缩放（按照书写顺序来变换）
       layers[i].firstChild.style.transform = `translate(${translateX}px,${translateY}px) rotate(${rotate}deg) scale(${scale})`
     }
   }
